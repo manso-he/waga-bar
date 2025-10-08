@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { i18n } from './i18n';
-import { getChinaDate, getWorkingDaysInMonth, getElapsedWorkHours, getProgressBar, getLayerProgressPercent, getRealmInfo } from './helpers';
+import { getChinaDate, getWorkingDaysInMonth, getElapsedWorkHours, getElapsedWorkHoursWithSchedule, getProgressBar, getLayerProgressPercent, getRealmInfo } from './helpers';
 
 const config = vscode.workspace.getConfiguration('salary');
 type Language = 'zh' | 'en';
@@ -52,19 +52,40 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
-      const elapsedHours = getElapsedWorkHours(now);
+      const config = vscode.workspace.getConfiguration('salary');
+      const workStart = config.get<string>('workStart', '08:30');
+      const workEnd = config.get<string>('workEnd', '17:30');
+      const lunchStart = config.get<string>('lunchStart', '12:00');
+      const lunchEnd = config.get<string>('lunchEnd', '13:30');
+
+      const elapsedHours = getElapsedWorkHoursWithSchedule(now, workStart, workEnd, lunchStart, lunchEnd);
+
+      // calculate total working hours per day from schedule
+      const start = new Date(now); const [sh, sm] = workStart.split(':').map(s=>parseInt(s,10)); start.setHours(sh, sm, 0, 0);
+      const end = new Date(now); const [eh, em] = workEnd.split(':').map(s=>parseInt(s,10)); end.setHours(eh, em, 0, 0);
+      const ls = new Date(now); const [lsh, lsm] = lunchStart.split(':').map(s=>parseInt(s,10)); ls.setHours(lsh, lsm,0,0);
+      const le = new Date(now); const [leh, lem] = lunchEnd.split(':').map(s=>parseInt(s,10)); le.setHours(leh, lem,0,0);
+
+      const totalWorkMs = Math.max(0, end.getTime() - start.getTime() - Math.max(0, le.getTime() - ls.getTime()));
+      const totalWorkHours = totalWorkMs / (1000 * 60 * 60) || 8;
+
       const dailySalary = monthlySalary / getWorkingDaysInMonth(now);
-      const hourlyRate = dailySalary / 8;
+      const hourlyRate = dailySalary / totalWorkHours;
       const earnedToday = hourlyRate * elapsedHours;
 
-      const progressPercent = Math.min(earnedToday / dailySalary, 1);
+  const progressPercent = Math.min(earnedToday / dailySalary, 1);
+  const cappedEarnedToday = Math.min(earnedToday, dailySalary);
       const progressBar = getProgressBar(progressPercent);
 
       const { currentRealm, layerInRealm } = getRealmInfo(now, entryDate, realmNames);
       const layerProgressPercent = getLayerProgressPercent(now);
       const layerProgressBar = getProgressBar(layerProgressPercent);
 
-      statusBarItem.text = `${earnedToday.toFixed(2)} ${progressBar} ${(progressPercent * 100).toFixed(2)}% | ${currentRealm} ${layerInRealm + 1} ${t.layer} [${layerProgressBar} ${(layerProgressPercent * 100).toFixed(2)}%]`;
+      statusBarItem.text = `${cappedEarnedToday.toFixed(2)} ${progressBar} ${(progressPercent * 100).toFixed(2)}% | ${currentRealm} ${layerInRealm + 1} ${t.layer} [${layerProgressBar} ${(layerProgressPercent * 100).toFixed(2)}%]`;
+
+      if (progressPercent >= 1) {
+        statusBarItem.text += ` — ${t.maxEarnings}`;
+      }
     }
 
     updateEarnings();

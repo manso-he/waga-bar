@@ -1,8 +1,4 @@
-# waga-bar README
-
-This is the README for your extension "waga-bar". After writing up a brief description, we recommend including the following sections.
-
-## Salary Tracker (waga-bar)
+# Salary Tracker (waga-bar)
 
 一个在状态栏实时展示当天已获得工资的 VS Code 扩展。它根据配置的月薪、入职时间与当前北京时间计算当日已获得的工资、当前修真境界层进度，并在状态栏显示直观的进度条与百分比。
 
@@ -17,8 +13,8 @@ This is the README for your extension "waga-bar". After writing up a brief descr
 
 每工作一个月视为进阶一层（layer）。从入职月份开始计数，已工作的月数等于当前层的编号（从 0 开始）。每 10 层为一个境界（realm），例如：
 
-- 已工作 0~9 个月 -> 第 1 个境界（realm index = 0），层数 1~10（layerInRealm 从 0 到 9，展示时会加 1）
-- 已工作 10~19 个月 -> 第 2 个境界（realm index = 1），层数 1~10
+- 已工作 0-9 个月 -> 第 1 个境界（realm index = 0），层数 1-10（layerInRealm 从 0 到 9，展示时会加 1）
+- 已工作 10-19 个月 -> 第 2 个境界（realm index = 1），层数 1-10
 
 插件会显示 `currentRealm`（境界名）和 `layerInRealm + 1`（当前境界内的层数，从 1 开始显示）。
 

@@ -2,7 +2,13 @@
   "name": "salary-tracker",
   "displayName": "Salary Tracker",
   "description": "Track your earnings during work hours.",
-  "version": "0.0.1",
+  "version": "0.0.3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/manso-he/waga-bar"
+  },
+  "publisher": "manso",
+  "icon": "images/icon.png",
   "engines": {
     "vscode": "^1.100.0"
   },
@@ -37,6 +43,26 @@
           "default": 1000,
           "minimum": 1,
           "description": "Status bar refresh interval in milliseconds. Must be greater than 0"
+        },
+        "salary.workStart": {
+          "type": "string",
+          "default": "08:30",
+          "description": "Work day start time (HH:mm)"
+        },
+        "salary.workEnd": {
+          "type": "string",
+          "default": "17:30",
+          "description": "Work day end time (HH:mm)"
+        },
+        "salary.lunchStart": {
+          "type": "string",
+          "default": "12:00",
+          "description": "Lunch start time (HH:mm)"
+        },
+        "salary.lunchEnd": {
+          "type": "string",
+          "default": "13:30",
+          "description": "Lunch end time (HH:mm)"
         },
         "salary.monthly": {
           "type": "number",
@@ -81,10 +107,10 @@
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src",
     "test": "vscode-test",
-    "test:unit": "node out/test/unit.extension.test.js"
+  "test:unit": "npm run compile-tests && node out/test/unit.extension.test.js && node out/test/schedule.test.js"
   },
   "devDependencies": {
-  "@types/vscode": "^1.104.0",
+  "@types/vscode": "^1.100.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
     "@typescript-eslint/eslint-plugin": "^8.42.0",
