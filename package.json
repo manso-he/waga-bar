@@ -1,0 +1,100 @@
+{
+  "name": "salary-tracker",
+  "displayName": "Salary Tracker",
+  "description": "Track your earnings during work hours.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "1.104.3"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Salary Tracker Settings",
+      "properties": {
+        "salary.language": {
+          "type": "string",
+          "default": "en",
+          "enum": [
+            "zh",
+            "en"
+          ],
+          "enumDescriptions": [
+            "中文",
+            "English"
+          ],
+          "description": "language"
+        },
+        "salary.refreshInterval": {
+          "type": "number",
+          "default": 1000,
+          "minimum": 1,
+          "description": "Status bar refresh interval in milliseconds. Must be greater than 0"
+        },
+        "salary.monthly": {
+          "type": "number",
+          "default": 10000,
+          "description": "Your monthly salary."
+        },
+        "salary.entryDate": {
+          "type": "string",
+          "default": "2024-05-23",
+          "description": "Start Date, Format: YYYY-MM-DD"
+        },
+        "salary.realmNames.zh": {
+          "type": "array",
+          "default": [
+            "炼气",
+            "筑基",
+            "金丹",
+            "元神"
+          ],
+          "description": "中文修真境界名称列表，每十层一个境界"
+        },
+        "salary.realmNames.en": {
+          "type": "array",
+          "default": [
+            "Qi Refining",
+            "Foundation Establishment",
+            "Core Formation",
+            "Nascent Soul"
+          ],
+          "description": "English realm names, one per ten levels"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test",
+    "test:unit": "node out/test/unit.extension.test.js",
+    "test:ci": "xvfb-run -s \"-ac -screen 0 1280x1024x24\" npm test"
+  },
+  "devDependencies": {
+  "@types/vscode": "^1.104.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
+    "@typescript-eslint/parser": "^8.42.0",
+    "eslint": "^9.34.0",
+    "typescript": "^5.9.2",
+    "ts-loader": "^9.5.4",
+    "webpack": "^5.101.3",
+    "webpack-cli": "^6.0.1",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
