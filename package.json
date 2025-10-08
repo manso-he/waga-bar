@@ -2,7 +2,7 @@
   "name": "salary-tracker",
   "displayName": "Salary Tracker",
   "description": "Track your earnings during work hours.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/manso-he/waga-bar"

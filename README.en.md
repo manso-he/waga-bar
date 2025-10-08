@@ -2,6 +2,7 @@
 
 A VS Code extension that shows how much you've earned today in the status bar in real-time. It calculates earnings based on monthly salary, working hours (excluding lunch), and local Beijing time, and shows progress bars and realm/level progress.
 
+![alt text](images/en-demo.png)
 ## Features
 
 - Shows today's earned salary in the status bar in real time (accounts for working hours and lunch break).
