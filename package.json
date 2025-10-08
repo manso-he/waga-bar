@@ -4,8 +4,9 @@
   "description": "Track your earnings during work hours.",
   "version": "0.0.1",
   "engines": {
-    "vscode": "1.104.3"
+    "vscode": "^1.100.0"
   },
+  "license": "Apache-2.0",
   "categories": [
     "Other"
   ],
@@ -80,8 +81,7 @@
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src",
     "test": "vscode-test",
-    "test:unit": "node out/test/unit.extension.test.js",
-    "test:ci": "xvfb-run -s \"-ac -screen 0 1280x1024x24\" npm test"
+    "test:unit": "node out/test/unit.extension.test.js"
   },
   "devDependencies": {
   "@types/vscode": "^1.104.0",
