@@ -3,3 +3,13 @@ dist
 node_modules
 .vscode-test/
 *.vsix
+
+# Local temp/log files
+crash-stack.txt
+npm-test-run.log
+.vscode-test
+.vscode-test/*
+.vscode/
+.vscode/**
+.idea/
+*.log
